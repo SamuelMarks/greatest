@@ -2,6 +2,17 @@ cmake_minimum_required(VERSION 3.11)
 
 project(greatest VERSION 1.5.0 LANGUAGES C)
 
+#===========#
+# Options   #
+#===========#
+option(GREATEST_USE_STATIC_CRT "Use static CRT (/MT, /MTd)" OFF)
+option(GREATEST_USE_UNICODE "Use UNICODE charset" OFF)
+option(GREATEST_MULTI_THREADED "Use multi-threaded" ON)
+option(GREATEST_ENABLE_LTO "Enable Link-Time Optimization (LTO)" OFF)
+option(GREATEST_BUILD_SHARED_LIBS "Build shared libraries" OFF)
+
+set(GREATEST_MSVC_RTC "" CACHE STRING "MSVC Runtime Checks (/RTC1, /RTCs, /RTCu)")
+
 #===============#
 # Compiler args #
 #===============#
@@ -11,6 +22,35 @@ set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
 set(CMAKE_C_STANDARD 90 CACHE STRING "")
 
 add_library("${PROJECT_NAME}_compiler_flags" INTERFACE)
+
+if(GREATEST_ENABLE_LTO)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT lto_supported)
+    if(lto_supported)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+    endif()
+endif()
+
+if (MSVC)
+    if (GREATEST_USE_STATIC_CRT)
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    else()
+        set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+    endif()
+
+    if (GREATEST_USE_UNICODE)
+        add_compile_definitions(UNICODE _UNICODE)
+    endif()
+    
+    if (GREATEST_MSVC_RTC)
+        target_compile_options("${PROJECT_NAME}_compiler_flags" INTERFACE "${GREATEST_MSVC_RTC}")
+    endif()
+endif()
+
+if (NOT GREATEST_MULTI_THREADED)
+    add_compile_definitions(GREATEST_SINGLE_THREADED)
+endif()
+
 if ((NOT DEFINED MSVC_VERSION
         OR MSVC_VERSION STRGREATER "1900") # 2015
         AND NOT (CMAKE_C_COMPILER_ID STREQUAL "OpenWatcom"))

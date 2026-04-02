@@ -1,6 +1,7 @@
+/* clang-format off */
 #include <iostream>
 #include "greatest.h"
-
+/* clang-format on */
 using namespace std;
 
 TEST standalone_test(void) {
