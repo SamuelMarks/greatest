@@ -16,5 +16,5 @@ target_include_directories(
         "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
 )
 add_test(NAME "${EXEC_NAME}"
-        COMMAND "${CMAKE_BINARY_DIR}/${EXEC_NAME}")
+        COMMAND "${EXEC_NAME}")
 set_tests_properties("${EXEC_NAME}" PROPERTIES WILL_FAIL TRUE)
