@@ -354,7 +354,8 @@ void greatest_set_test_suffix(const char *suffix);
 #endif
 
 #if defined(_MSC_VER)
-#define strncat_s_else_insec(dest, destsz, src, count) strncpy_s(dest, destsz, src, _TRUNCATE)
+#define strncat_s_else_insec(dest, destsz, src, count)                         \
+  strncpy_s(dest, destsz, src, _TRUNCATE)
 #else
 #define strncat_s_else_insec(dest, destsz, src, count) strncat(dest, src, count)
 #endif
@@ -755,8 +756,8 @@ typedef enum greatest_test_res {
     (void)strncat_s_else_insec(g->name_buf, size, name, size - 1);             \
     if (g->name_suffix && (len + 1 < size)) {                                  \
       g->name_buf[len] = '_';                                                  \
-      strncat_s_else_insec(&g->name_buf[len + 1], size - (len + 1), g->name_suffix, \
-                           size - (len + 2));                                  \
+      strncat_s_else_insec(&g->name_buf[len + 1], size - (len + 1),            \
+                           g->name_suffix, size - (len + 2));                  \
     }                                                                          \
   }                                                                            \
                                                                                \
