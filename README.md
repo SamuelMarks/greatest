@@ -1,5 +1,7 @@
 # greatest
 
+[![CI](https://github.com/SamuelMarks/greatest/actions/workflows/ci.yml/badge.svg)](https://github.com/SamuelMarks/greatest/actions/workflows/ci.yml)
+
 A testing system for C, contained in 1 header file.
 
 

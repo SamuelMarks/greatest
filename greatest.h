@@ -353,10 +353,10 @@ void greatest_set_test_suffix(const char *suffix);
 #define GREATEST_VA_ARGS
 #endif
 
-#if defined(__STDC_LIB_EXT1__) || defined(_MSC_VER) || defined(__MINGW32__)
-#define strncat_s_else_insec strncat_s
+#if defined(_MSC_VER)
+#define strncat_s_else_insec(dest, destsz, src, count) strncpy_s(dest, destsz, src, _TRUNCATE)
 #else
-#define strncat_s_else_insec(dest, _, src, count) strncat(dest, src, count)
+#define strncat_s_else_insec(dest, destsz, src, count) strncat(dest, src, count)
 #endif
 
 /**********
@@ -755,7 +755,7 @@ typedef enum greatest_test_res {
     (void)strncat_s_else_insec(g->name_buf, size, name, size - 1);             \
     if (g->name_suffix && (len + 1 < size)) {                                  \
       g->name_buf[len] = '_';                                                  \
-      strncat_s_else_insec(&g->name_buf[len + 1], size, g->name_suffix,        \
+      strncat_s_else_insec(&g->name_buf[len + 1], size - (len + 1), g->name_suffix, \
                            size - (len + 2));                                  \
     }                                                                          \
   }                                                                            \
@@ -1305,8 +1305,8 @@ typedef enum greatest_test_res {
 
 #endif /* USE_ABBREVS */
 
-#if defined(__cplusplus) && !defined(GREATEST_NO_EXTERN_CPLUSPLUS)
+#ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif

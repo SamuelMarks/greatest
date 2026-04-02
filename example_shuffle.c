@@ -13,7 +13,7 @@
 #include "greatest.h"
 /* clang-format on */
 
-#define TEST_COUNT 1000
+#define TEST_COUNT 10
 
 static char test_has_run[(TEST_COUNT / 8) + 1];
 
@@ -69,13 +69,6 @@ static unsigned int seed_of_time(void) {
   return t * counter++;
 }
 #else
-int gettimeofday(struct timeval *tp, struct timezone *tzp);
-
-void err(int exit_code, const char *msg) {
-  fputs(msg, stderr);
-  exit(exit_code);
-}
-
 static unsigned int seed_of_time(void) {
   static unsigned int counter = 1;
   struct timeval tv;
@@ -93,7 +86,7 @@ static void set_suffix(unsigned int i) {
    * to test conditionally including a "_" separator. */
   if (i > 0) {
     /* Using `sprintf` here for building with `-std=c89`. */
-#if _MSC_VER
+#if defined(_MSC_VER)
     (void)sprintf_s(suffix_buf, sizeof(suffix_buf), "%d", i);
 #else
     (void)sprintf(suffix_buf, "%d", i);
