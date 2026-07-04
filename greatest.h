@@ -38,7 +38,11 @@ extern "C" {
 
 /* Set to 0 to disable all use of time.h / clock(). */
 #ifndef GREATEST_USE_TIME
+#if defined(__EMSCRIPTEN__)
+#define GREATEST_USE_TIME 0
+#else
 #define GREATEST_USE_TIME 1
+#endif
 #endif
 
 #if GREATEST_USE_TIME
