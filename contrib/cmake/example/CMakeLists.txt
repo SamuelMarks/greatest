@@ -7,17 +7,17 @@ foreach (example
          "example_suite"
          "example_trunc")
     set(EXEC_NAME "${PROJECT_NAME}_${example}")
-    set(Header_Files "${CMAKE_SOURCE_DIR}/greatest.h")
+    set(Header_Files "${PROJECT_SOURCE_DIR}/greatest.h")
     source_group("Header Files" FILES "${Header_Files}")
 
     if (example STREQUAL "example_cpp" OR example STREQUAL "example_suite")
         continue() #set(Source_Files "../${example}.cpp")
     elseif (example STREQUAL "example")
         set(Source_Files
-                "${CMAKE_SOURCE_DIR}/${example}.c"
-                "${CMAKE_SOURCE_DIR}/${example}_suite.c")
+                "${PROJECT_SOURCE_DIR}/${example}.c"
+                "${PROJECT_SOURCE_DIR}/${example}_suite.c")
     else ()
-        set(Source_Files "${CMAKE_SOURCE_DIR}/${example}.c")
+        set(Source_Files "${PROJECT_SOURCE_DIR}/${example}.c")
     endif ()
     source_group("Source Files" FILES "${Source_Files}")
 
@@ -29,7 +29,7 @@ foreach (example
     target_include_directories(
             "${EXEC_NAME}"
             PUBLIC
-            "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>"
+            "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>"
             "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
     )
     add_test(NAME "${EXEC_NAME}"

@@ -91,7 +91,7 @@ endif ()
 
 # configure a header file to pass the version number only
 configure_file(
-        "${CMAKE_SOURCE_DIR}/contrib/cmake/config.h.in"
+        "${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/config.h.in"
         "${PROJECT_NAME}Config.h"
 )
 
@@ -101,8 +101,8 @@ configure_file(
 
 include(CTest)
 if (BUILD_TESTING)
-    add_subdirectory("${CMAKE_SOURCE_DIR}/contrib/cmake/example")
-    add_subdirectory("${CMAKE_SOURCE_DIR}/contrib/cmake/example_cpp")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/example")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/example_cpp")
 endif (BUILD_TESTING)
 
 #=========#
@@ -121,11 +121,11 @@ if (APPLE)
     set(CPACK_BUNDLE_ICON "contrib/cmake/Info.plist")
     set(CPACK_PACKAGE_ICON "contrib/cmake/CustomVolumeIcon.icns")
 endif (APPLE)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE")
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
 set(CPACK_PACKAGE_VERSION_MAJOR "${${PROJECT_NAME}_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${${PROJECT_NAME}_VERSION_MINOR}")
-set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/contrib/cmake/README.txt")
-set(CPACK_RESOURCE_FILE_WELCOME "${CMAKE_SOURCE_DIR}/contrib/cmake/Welcome.txt")
+set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/README.txt")
+set(CPACK_RESOURCE_FILE_WELCOME "${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/Welcome.txt")
 set(CPACK_PACKAGE_CONTACT "https://github.com/silentbicycle/${PROJECT_NAME}")
 
 include(CPack)

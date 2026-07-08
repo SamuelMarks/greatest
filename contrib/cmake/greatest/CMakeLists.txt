@@ -1,4 +1,4 @@
-set(Header_Files "${CMAKE_SOURCE_DIR}/greatest.h")
+set(Header_Files "${PROJECT_SOURCE_DIR}/greatest.h")
 source_group("Header Files" FILES "${Header_Files}")
 
 add_library("${PROJECT_NAME}" INTERFACE "${Header_Files}")
