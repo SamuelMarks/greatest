@@ -100,51 +100,53 @@ configure_file(
 #=============#
 
 include(CTest)
-if (BUILD_TESTING)
+if (PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/example")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/example_cpp")
-endif (BUILD_TESTING)
+endif (PROJECT_IS_TOP_LEVEL AND BUILD_TESTING)
 
 #=========#
 # Install #
 #=========#
 
-include(GNUInstallDirs)
-
-include(InstallRequiredSystemLibraries)
-set(CPACK_BUNDLE_NAME "${PROJECT_NAME}")
-set(CPACK_PACKAGE_VENDOR "SamuelMarks")
-set(CPACK_PACKAGE_DESCRIPTION "A C testing library in 1 file. No dependencies, no dynamic allocation. ISC licensed.")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
-if (APPLE)
-    set(CPACK_BUNDLE_PLIST "contrib/cmake/Info.plist")
-    set(CPACK_BUNDLE_ICON "contrib/cmake/Info.plist")
-    set(CPACK_PACKAGE_ICON "contrib/cmake/CustomVolumeIcon.icns")
-endif (APPLE)
-set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
-set(CPACK_PACKAGE_VERSION_MAJOR "${${PROJECT_NAME}_VERSION_MAJOR}")
-set(CPACK_PACKAGE_VERSION_MINOR "${${PROJECT_NAME}_VERSION_MINOR}")
-set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/README.txt")
-set(CPACK_RESOURCE_FILE_WELCOME "${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/Welcome.txt")
-set(CPACK_PACKAGE_CONTACT "https://github.com/silentbicycle/${PROJECT_NAME}")
-
-include(CPack)
-include(CMakePackageConfigHelpers)
-
-# generate the config file that is includes the exports
-configure_package_config_file(
-        "contrib/cmake/Config.cmake.in"
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        INSTALL_DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-        NO_SET_AND_CHECK_MACRO
-        NO_CHECK_REQUIRED_COMPONENTS_MACRO
-)
-
-# generate the version file for the config file
-write_basic_package_version_file(
-        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
-        VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}"
-        COMPATIBILITY AnyNewerVersion
-)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
-        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+if (PROJECT_IS_TOP_LEVEL)
+    include(GNUInstallDirs)
+    
+    include(InstallRequiredSystemLibraries)
+    set(CPACK_BUNDLE_NAME "${PROJECT_NAME}")
+    set(CPACK_PACKAGE_VENDOR "SamuelMarks")
+    set(CPACK_PACKAGE_DESCRIPTION "A C testing library in 1 file. No dependencies, no dynamic allocation. ISC licensed.")
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
+    if (APPLE)
+        set(CPACK_BUNDLE_PLIST "contrib/cmake/Info.plist")
+        set(CPACK_BUNDLE_ICON "contrib/cmake/Info.plist")
+        set(CPACK_PACKAGE_ICON "contrib/cmake/CustomVolumeIcon.icns")
+    endif (APPLE)
+    set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+    set(CPACK_PACKAGE_VERSION_MAJOR "${${PROJECT_NAME}_VERSION_MAJOR}")
+    set(CPACK_PACKAGE_VERSION_MINOR "${${PROJECT_NAME}_VERSION_MINOR}")
+    set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/README.txt")
+    set(CPACK_RESOURCE_FILE_WELCOME "${CMAKE_CURRENT_SOURCE_DIR}/contrib/cmake/Welcome.txt")
+    set(CPACK_PACKAGE_CONTACT "https://github.com/silentbicycle/${PROJECT_NAME}")
+    
+    include(CPack)
+    include(CMakePackageConfigHelpers)
+    
+    # generate the config file that is includes the exports
+    configure_package_config_file(
+            "contrib/cmake/Config.cmake.in"
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+            INSTALL_DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
+            NO_SET_AND_CHECK_MACRO
+            NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    )
+    
+    # generate the version file for the config file
+    write_basic_package_version_file(
+            "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+            VERSION "${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR}"
+            COMPATIBILITY AnyNewerVersion
+    )
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+            DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}")
+endif (PROJECT_IS_TOP_LEVEL)
